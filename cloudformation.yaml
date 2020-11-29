@@ -14,9 +14,21 @@ Resources:
       BucketName: !Sub
         - ${Domain}-private-bucket
         - Domain: !Ref RootDomainName
+      LoggingConfiguration:
+        DestinationBucketName: !Ref S3BucketLogs
+        LogFilePrefix: 'origin/'
       Tags:
         - Key: description
           Value: "pastyandchablis.com restricted origin"
+
+  S3BucketLogs:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      AccessControl: LogDeliveryWrite
+      BucketName: !Sub
+        - ${Domain}-logs
+        - Domain: !Ref RootDomainName
 
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -43,8 +55,8 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
-	    Aliases: !Sub
-		  - www.${Domain}
+        Aliases: !Sub
+          - www.${Domain}
           - Domain: !Ref RootDomainName
         Origins:
           - DomainName: !Sub ${RootDomainName}-private-bucket.s3.us-east-2.amazonaws.com
@@ -54,6 +66,12 @@ Resources:
             S3OriginConfig:
               OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginIdentity}'
         Enabled: 'true'
+        HttpVersion: http2
+        IPV6Enabled: true
+        Logging:
+          Bucket: !GetAtt S3BucketLogs.DomainName
+          IncludeCookies: false
+          Prefix: 'cdn/'
         Comment: Some comment
         DefaultRootObject: index.html
         DefaultCacheBehavior:
@@ -72,15 +90,21 @@ Resources:
           AcmCertificateArn: arn:aws:acm:us-east-1:955823752787:certificate/a6d26dda-12a9-45ed-b27e-d2b2ebcd9590 
           MinimumProtocolVersion: TLSv1.2_2018
           SslSupportMethod: sni-only
-  DNS:
-    Type: 'AWS::Route53::RecordSetGroup'
+
+  Route53RecordSetGroup:
+    Type: AWS::Route53::RecordSetGroup
     Properties:
-	  HostedZoneName: !Ref RootDomainName
+      HostedZoneName: !Sub '${RootDomainName}.'
       RecordSets:
-        - AliasTarget:
-          DNSName: !GetAtt CDN.DomainName
-          HostedZoneId: Z0156317FA51ZWMPQW7C
-        Name: !Sub
-          - ${Domain}-S3-private-bucket
-          - Domain: !Ref RootDomainName
+      - Name: !Ref RootDomainName
         Type: A
+        AliasTarget:
+          DNSName: !GetAtt publicDistribution.DomainName
+          EvaluateTargetHealth: false
+          HostedZoneId: Z0156317FA51ZWMPQW7C
+      - Name: !Sub 'www.${RootDomainName}'
+        Type: A
+        AliasTarget:
+          DNSName: !GetAtt publicDistribution.DomainName
+          EvaluateTargetHealth: false
+          HostedZoneId: Z0156317FA51ZWMPQW7C
