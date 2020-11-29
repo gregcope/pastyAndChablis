@@ -60,7 +60,7 @@ Resources:
         Origins:
           - DomainName: !Sub ${RootDomainName}-private-bucket.s3.eu-west-2.amazonaws.com
             Id: !Sub 
-              - ${Domain}-S3-private-bucket
+              - ${Domain}-private-bucket
               - Domain: !Ref RootDomainName
             S3OriginConfig:
               OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginIdentity}'
