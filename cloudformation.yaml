@@ -55,9 +55,8 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
-        Aliases: !Sub
-          - www.${Domain}
-          - Domain: !Ref RootDomainName
+        Aliases: 
+          - !Ref RootDomainName
         Origins:
           - DomainName: !Sub ${RootDomainName}-private-bucket.s3.us-east-2.amazonaws.com
             Id: !Sub 
