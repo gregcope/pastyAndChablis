@@ -57,6 +57,7 @@ Resources:
       DistributionConfig:
         Aliases: 
           - !Ref RootDomainName
+		  - !Sub 'www.${RootDomainName}'
         Origins:
           - DomainName: !Sub ${RootDomainName}-private-bucket.s3.eu-west-2.amazonaws.com
             Id: !Sub 
