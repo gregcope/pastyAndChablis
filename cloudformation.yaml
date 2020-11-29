@@ -71,9 +71,15 @@ Resources:
         TTL: 900
         ResourceRecords:
         - !GetAtt WWWBucket.DomainName
+
+mycert:
+  Type: AWS::CertificateManager::Certificate
+  Properties:
+    DomainName: !Sub
+          - www.${Domain}
+          - Domain: !Ref RootDomainName
+
 Outputs:
   WebsiteURL:
     Value: !GetAtt RootBucket.WebsiteURL
     Description: URL for website hosted on S3
-
-
