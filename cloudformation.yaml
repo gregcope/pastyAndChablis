@@ -60,13 +60,11 @@ Resources:
         Origins:
           - DomainName: !Sub ${RootDomainName}-private-bucket.s3.eu-west-2.amazonaws.com
             Id: !Sub 
-              - ${Domain}-private-bucket
+              - ${Domain}-S3-private-bucket
               - Domain: !Ref RootDomainName
             S3OriginConfig:
               OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginIdentity}'
         Enabled: 'true'
-        HttpVersion: http2
-        IPV6Enabled: true
         Logging:
           Bucket: !GetAtt S3BucketLogs.DomainName
           IncludeCookies: false
@@ -87,7 +85,6 @@ Resources:
           ViewerProtocolPolicy: redirect-to-https
         ViewerCertificate:
           AcmCertificateArn: arn:aws:acm:us-east-1:955823752787:certificate/a6d26dda-12a9-45ed-b27e-d2b2ebcd9590 
-          MinimumProtocolVersion: TLSv1.2_2018
           SslSupportMethod: sni-only
 
   WebsiteDNSName:
