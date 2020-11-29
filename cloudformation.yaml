@@ -58,7 +58,7 @@ Resources:
         Aliases: 
           - !Ref RootDomainName
         Origins:
-          - DomainName: !Sub ${RootDomainName}-private-bucket.s3.us-east-2.amazonaws.com
+          - DomainName: !Sub ${RootDomainName}-private-bucket.s3.eu-west-2.amazonaws.com
             Id: !Sub 
               - ${Domain}-S3-private-bucket
               - Domain: !Ref RootDomainName
@@ -71,7 +71,7 @@ Resources:
           Bucket: !GetAtt S3BucketLogs.DomainName
           IncludeCookies: false
           Prefix: 'cdn/'
-        Comment: Some comment
+        Comment: CDN config for Domain
         DefaultRootObject: index.html
         DefaultCacheBehavior:
           AllowedMethods:
@@ -90,20 +90,13 @@ Resources:
           MinimumProtocolVersion: TLSv1.2_2018
           SslSupportMethod: sni-only
 
-  Route53RecordSetGroup:
+  WebsiteDNSName:
     Type: AWS::Route53::RecordSetGroup
     Properties:
-      HostedZoneName: !Sub '${RootDomainName}.'
+      HostedZoneName: !Join ['', [!Ref 'RootDomainName', .]]
       RecordSets:
-      - Name: !Ref RootDomainName
-        Type: A
-        AliasTarget:
-          DNSName: !GetAtt publicDistribution.DomainName
-          EvaluateTargetHealth: false
-          HostedZoneId: Z0156317FA51ZWMPQW7C
       - Name: !Sub 'www.${RootDomainName}'
         Type: A
         AliasTarget:
+          HostedZoneId: Z2FDTNDATAQYW2
           DNSName: !GetAtt publicDistribution.DomainName
-          EvaluateTargetHealth: false
-          HostedZoneId: Z0156317FA51ZWMPQW7C
