@@ -98,3 +98,9 @@ Resources:
         AliasTarget:
           HostedZoneId: Z2FDTNDATAQYW2
           DNSName: !GetAtt publicDistribution.DomainName
+      - Name: !Ref RootDomainName
+        Type: A
+        AliasTarget:
+          HostedZoneId: Z2FDTNDATAQYW2
+          DNSName: !GetAtt publicDistribution.DomainName
+
