@@ -55,9 +55,11 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+
         Aliases: 
           - !Ref RootDomainName
           - !Sub 'www.${RootDomainName}'
+
         Origins:
           - DomainName: !Sub ${RootDomainName}-private-bucket.s3.eu-west-2.amazonaws.com
             Id: !Sub 
@@ -66,11 +68,20 @@ Resources:
             S3OriginConfig:
               OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginIdentity}'
         Enabled: 'true'
+
         Logging:
           Bucket: !GetAtt S3BucketLogs.DomainName
           IncludeCookies: false
           Prefix: 'cdn/'
+
         Comment: CDN config for Domain
+
+        CustomErrorResponses:
+          - ErrorCachingMinTTL: 60
+            ErrorCode: 404
+            ResponseCode: 404
+            ResponsePagePath: '/404.html'
+
         DefaultRootObject: index.html
         DefaultCacheBehavior:
           AllowedMethods:
@@ -84,6 +95,7 @@ Resources:
             Cookies:
               Forward: none
           ViewerProtocolPolicy: redirect-to-https
+
         ViewerCertificate:
           AcmCertificateArn: arn:aws:acm:us-east-1:955823752787:certificate/a6d26dda-12a9-45ed-b27e-d2b2ebcd9590 
           SslSupportMethod: sni-only
