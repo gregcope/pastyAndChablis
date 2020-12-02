@@ -16,3 +16,28 @@ Parameters:
     Type: String
 
 Resources:
+
+LambdaOrderFunction:
+
+  Type: AWS::Lambda::Function
+  Properties:
+    Code:
+      ZipFile: |
+        def handler(event, context):
+          response = {
+            'isBase64Encoded': False,
+            'statusCode': 200,
+            'headers': {},
+            'multiValueHeaders': {},
+            'body': 'Hello, World!'
+          }
+          return response
+    Description: AWS Lambda function to SES email and store in DynamDB
+    FunctionName: 'lambdaOrder'
+    Handler: index.handler
+    MemorySize: 256
+    Role: !GetAtt lambdaOrder-IamRole.Arn
+    Runtime: python3.7
+    Timeout: 60
+
+
