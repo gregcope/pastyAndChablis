@@ -24,7 +24,7 @@ Assuming an R43 hosted domain for a domain and any inbox you have access to (for
 1. Login into the AWS console and goto your prefered region
 1. Go to the `SES Home`
 1. Under `Identity Management`, Choose to;
-1. Under `Domains` click `Verify a New Domain` and enter the Domain name, click `Generate DKIM Settings` and click `Verify This Domain`.  Down the bottom click `Use Route 53` Click the `Domain Verificaiton Record and `DKIM Settings` and then `Create Record Sets`.  Return and refresh and it should show as `Verified`
+1. Under `Domains` click `Verify a New Domain` and enter the Domain name, click `Generate DKIM Settings` and click `Verify This Domain`.  Down the bottom click `Use Route 53` Click the `Domain Verificaiton Record` and `DKIM Settings` and then `Create Record Sets`.  Return and refresh and it should show as `Verified`
 1. Under the `Email Addresses` click `Verify a New Email Address` and enter the recpient (or sender) and click go.  Access the inbox and look for the email from AWS, and click the link.  Return and refresh and it should show as `Verified`
 
 ## Resources
