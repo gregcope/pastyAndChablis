@@ -176,7 +176,7 @@ Resources:
       EndpointConfiguration:
         Types:
           - EDGE
-      Name: lambdaOrderAPI
+      Name: OrderAPI
 
   ApiGatewayOrderResource:
     Type: AWS::ApiGateway::Resource
@@ -218,11 +218,23 @@ Resources:
       RestApiId: !Ref ApiGatewayOrderRestApi
       StageName: 'v0'
 
-  ApiGatewayDeployment:
+  ApiGatewayOrderDeployment:
     Type: AWS::ApiGateway::Deployment
     DependsOn: ApiGatewayOrderMethod
     Properties:
       Description: Order Lambda API Deployment
       RestApiId: !Ref ApiGatewayOrderRestApi
 
-
+Outputs:
+  ApiUrl:
+    Description: URI of Order API endpoint
+    Value: !Join
+      - ''
+      - - https://
+        - !Ref ApiGatewayOrderRestApi
+        - '.execute-api.'
+        - !Ref 'AWS::Region'
+        - '.amazonaws.com/'
+        - !Ref ApiGatewayOrderStage.StageName
+        - '/'
+        - !Ref ApiGatewayOrderResource.PathPart
