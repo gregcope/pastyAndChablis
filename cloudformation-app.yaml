@@ -23,6 +23,11 @@ Resources:
     Properties:
       Code:
         ZipFile: |
+          # import libs
+          import boto3
+          import json
+
+          # handle api call
           def handler(event, context):
             response = {
               'isBase64Encoded': False,
