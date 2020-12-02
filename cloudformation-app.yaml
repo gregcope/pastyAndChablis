@@ -185,7 +185,7 @@ Resources:
       PathPart: 'lambda'
       RestApiId: !Ref ApiGatewayOrderRestApi
 
-  ApiGatewayMethod:
+  ApiGatewayOrderMethod:
     Type: AWS::ApiGateway::Method
     Properties:
       ApiKeyRequired: false
