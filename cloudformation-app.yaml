@@ -37,7 +37,7 @@ Resources:
       Handler: index.handler
       MemorySize: 128
       Role: !GetAtt LambdaOrderIamRole.Arn
-      Runtime: python3.7
+      Runtime: python3.8
       Timeout: 60
 
   LambdaOrderIamRole:
@@ -77,3 +77,27 @@ Resources:
                 StringEquals:
                   "ses:FromAddress":
                     Ref: EmailFrom
+
+  ApiGatewayIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ''
+            Effect: 'Allow'
+            Principal:
+              Service:
+                - 'apigateway.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      Policies:
+        - PolicyName: LambdaAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action: 'lambda:*'
+                Resource: !GetAtt LambdaOrderFunction.Arn
+
