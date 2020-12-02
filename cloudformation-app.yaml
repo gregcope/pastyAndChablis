@@ -167,3 +167,38 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: !Ref 'OrderReadCapacityUnits'
         WriteCapacityUnits: !Ref 'OrderWriteCapacityUnits'
+
+  ApiGatewayOrderRestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      ApiKeySourceType: HEADER
+      Description: An API Gateway for the LambdaOrderFunction
+      EndpointConfiguration:
+        Types:
+          - EDGE
+      Name: lambdaOrderAPI
+
+  ApiGatewayOrderResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt ApiGatewayOrderRestApi.RootResourceId
+      PathPart: 'lambda'
+      RestApiId: !Ref ApiGatewayOrderRestApi
+
+  ApiGatewayMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: NONE
+      HttpMethod: POST
+      Integration:
+        ConnectionType: INTERNET
+        Credentials: !GetAtt ApiGatewayIamRole.Arn
+        IntegrationHttpMethod: POST
+        PassthroughBehavior: WHEN_NO_MATCH
+        TimeoutInMillis: 29000
+        Type: AWS_PROXY
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaOrderFunction.Arn}/invocations'
+      OperationName: 'lambda'
+      ResourceId: !Ref ApiGatewayOrderResource
+      RestApiId: !Ref ApiGatewayOrderRestApi
