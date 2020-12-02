@@ -78,6 +78,15 @@ Resources:
                   "ses:FromAddress":
                     Ref: EmailFrom
 
+        - PolicyName: saveOrders
+          PolicyDocument:
+            Statement:
+              Effect: Allow
+              Action:
+                 - "dynamodb:PutItem"
+              Resource: "*"
+
+
   ApiGatewayIamRole:
     Type: AWS::IAM::Role
     Properties:
