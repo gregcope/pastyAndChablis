@@ -31,6 +31,7 @@ Assuming an R43 hosted domain for a domain and any inbox you have access to (for
 
 ## Notes
 
+https://www.cs.oberlin.edu/~kuperman/help/vim/indenting.html
 * `:set expandtab`
 * `:set autointend`
 
