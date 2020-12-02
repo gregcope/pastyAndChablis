@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  RootDomainName:
+    Default: pastyandchablis.com
+    Description: Domain name for your website (pastyandchablis.com)
+    Type: String
+
+  EmailFrom:
+    Description: Email address used to send email FROM with SES
+    Type: String
+    Default: order@pastyandchablis.com
+
+  EmailTo:
+    Description: Email address used to send email TO with SES
+    Type: String
+
+Resources:
