@@ -14,6 +14,7 @@ In no real order
 * Have a proper cert/domain name
 * CDN and origin config, secured to only answer CDN
 * Configured as Code
+* Learn all the deep details of AWS Cloudformation/config
 
 ## AWS Simple Email Service verififcaiton
 
