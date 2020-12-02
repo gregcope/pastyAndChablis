@@ -37,4 +37,5 @@ Static Websites with CF, CF and S3
 
 API GW, Lamdba, SES
 * https://acloudguru.com/blog/engineering/how-to-build-a-serverless-contact-form-on-aws
-
+* https://github.com/guardian/ses-send-email-lambda/blob/master/conf/cloudformation.yml
+* https://nickolaskraus.org/articles/creating-an-amazon-api-gateway-with-a-lambda-integration-using-cloudformation/
