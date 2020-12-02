@@ -50,9 +50,9 @@ Resources:
             response = {
               'isBase64Encoded': False,
               'statusCode': 200,
-              'headers': {},
+              'headers': { 'Content-Type': 'text/html' },
               'multiValueHeaders': {},
-              'body': 'Hello, World!'
+              'body': '<html><head><title>pastyandchablis.com</title></head><body><h1>Thank you for your order!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><a href=https://www.pastyandchalis.com/index.html">Back to menu / Order another</a></body>'
             }
             return response
 
