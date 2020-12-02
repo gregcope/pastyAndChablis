@@ -15,6 +15,16 @@ Parameters:
     Description: Email address used to send email TO with SES
     Type: String
 
+  OrderReadCapacityUnits:
+    Description: DynamoDB Order table Read Capacity Units
+    Type: Number
+    Default: 1
+
+  OrderWriteCapacityUnits:
+    Description: DynamoDB Order table Write Capacity Units
+    Type: Number
+    Default: 1
+
 Resources:
 
   LambdaOrderFunction:
@@ -89,7 +99,7 @@ Resources:
               Effect: Allow
               Action:
                  - "dynamodb:PutItem"
-              Resource: "*"
+              Resource: !GetAtt CustomerInfo.Arn
 
 
   ApiGatewayIamRole:
@@ -115,3 +125,20 @@ Resources:
                 Action: 'lambda:*'
                 Resource: !GetAtt LambdaOrderFunction.Arn
 
+  CustomerInfo:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: orders
+      KeySchema:
+        - AttributeName: orderName
+          KeyType: HASH
+        - AttributeName: date
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: orderName
+          AttributeType: S
+        - AttributeName: date
+          AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref 'OrderReadCapacityUnits'
+        WriteCapacityUnits: !Ref 'OrderWriteCapacityUnits'
