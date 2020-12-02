@@ -25,6 +25,11 @@ Parameters:
     Type: Number
     Default: 1
 
+  APIGatewayPathPart:
+    Description: API Gateway PathPart hack (because you cannot extract it
+    Type: String
+    Default: lambda
+
 Resources:
 
   LambdaOrderFunction:
@@ -41,27 +46,6 @@ Resources:
 
           # handle api call
           def handler(event, context):
-
-            # write to dynamodb table
-            table = dynamodb.Table('orders')
-
-            log = "Writing to dynamodb orders: "
-
-            try:
-              dynamoResponse = table.update_item(
-                Key={
-                  'name' = name,
-                  'ingredients' = olives,
-                  'orderNumber' = uuid.hex,
-                  'date' = datetime.datetime.now().isoformat()
-                }
-              )
-            execpt ClientError as e:
-              if e.response['error']['code']:
-                log + (e.response['Error']['Message'])
-            else:
-              log + ("success") + (dynamoResponse, sort_dicts=False)
-
 
             response = {
               'isBase64Encoded': False,
@@ -182,7 +166,7 @@ Resources:
     Type: AWS::ApiGateway::Resource
     Properties:
       ParentId: !GetAtt ApiGatewayOrderRestApi.RootResourceId
-      PathPart: 'lambda'
+      PathPart: !Ref APIGatewayPathPart
       RestApiId: !Ref ApiGatewayOrderRestApi
 
   ApiGatewayOrderMethod:
@@ -190,7 +174,7 @@ Resources:
     Properties:
       ApiKeyRequired: false
       AuthorizationType: NONE
-      HttpMethod: POST
+      HttpMethod: GET
       Integration:
         ConnectionType: INTERNET
         Credentials: !GetAtt ApiGatewayIamRole.Arn
@@ -228,13 +212,4 @@ Resources:
 Outputs:
   ApiUrl:
     Description: URI of Order API endpoint
-    Value: !Join
-      - ''
-      - - https://
-        - !Ref ApiGatewayOrderRestApi
-        - '.execute-api.'
-        - !Ref 'AWS::Region'
-        - '.amazonaws.com/'
-        - !Ref ApiGatewayOrderStage.StageName
-        - '/'
-        - !Ref ApiGatewayOrderResource.PathPart
+    Value: !Sub https://${ApiGatewayOrderRestApi}.execute-api.${AWS::Region}.amazonaws.com/${ApiGatewayOrderStage}/${APIGatewayPathPart}
