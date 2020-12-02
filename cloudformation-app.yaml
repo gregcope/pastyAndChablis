@@ -202,3 +202,27 @@ Resources:
       OperationName: 'lambda'
       ResourceId: !Ref ApiGatewayOrderResource
       RestApiId: !Ref ApiGatewayOrderRestApi
+
+  ApiGatewayOrderModel:
+    Type: AWS::ApiGateway::Model
+    Properties:
+      ContentType: 'application/json'
+      RestApiId: !Ref ApiGatewayOrderRestApi
+      Schema: {}
+
+  ApiGatewayOrderStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      DeploymentId: !Ref ApiGatewayOrderDeployment
+      Description: Lambda API Stage v0
+      RestApiId: !Ref ApiGatewayOrderRestApi
+      StageName: 'v0'
+
+  ApiGatewayDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: ApiGatewayOrderMethod
+    Properties:
+      Description: Order Lambda API Deployment
+      RestApiId: !Ref ApiGatewayOrderRestApi
+
+
