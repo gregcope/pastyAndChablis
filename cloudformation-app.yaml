@@ -35,9 +35,53 @@ LambdaOrderFunction:
     Description: AWS Lambda function to SES email and store in DynamDB
     FunctionName: 'lambdaOrder'
     Handler: index.handler
-    MemorySize: 256
-    Role: !GetAtt lambdaOrder-IamRole.Arn
+    MemorySize: 128
+    Role: !GetAtt LambdaOrder-IamRole.Arn
     Runtime: python3.7
     Timeout: 60
 
+  LambdaOrder-IamRole:
+    Type: AWS::IAM::Role
+    Properties:
+
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+              - lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+      Path: /
+
+      Policies:
+        - PolicyName: logs
+        PolicyDocument:
+          Statement:
+            Effect: Allow
+            Action:
+              - "logs:CreateLogGroup"
+              - "logs:CreateLogStream"
+              - "logs:PutLogEvents"
+            Resource: "arn:aws:logs:*:*:*"
+
+        - PolicyName: lambda
+        PolicyDocument:
+          Statement:
+            Effect: Allow
+            Action:
+              - "lambda:InvokeFunction"
+            Resource: "*"
+
+        - PolicyName: sendEmails
+        PolicyDocument:
+          Statement:
+            Effect: Allow
+            Action:
+              - "ses:SendEmail"
+              - "ses:SendRawEmail"
+            Resource: "*"
+            Condition:
+              StringEquals:
+                "ses:FromAddress":
+                  Ref: EmailFrom
 
