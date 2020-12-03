@@ -49,11 +49,35 @@ Resources:
           # handle api call
           def handler(event, context):
 
-            fname = 'greg'
-            date = '1900'
+            name = ''
+            ingredients = ''
 
-            #body = '<html><head><title>pastyandchablis.com</title></head><body><h1> ' + str(name) + ', thank you for your order!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>'
-            body = "<html><head><title>pastyandchablis.com</title></head><body><h1> {}, thank you for your order on {}!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>".format(fname, date)
+            # extract date
+            date = event['requestContext']['requestTime']
+
+            # iterate over querystring, extract name and ingridents
+            for key, value in event['queryStringParameters'].items():
+
+              if key == 'fname':
+                # we found the name!
+                name = value
+              elif value != '':
+                print(value)
+                # this is not the name, so save the ingredients
+                ingredients = ingredients + value + ' '
+            
+            # remove the last trailing white space we have added
+            ingredients = ingredients.rstrip()
+
+            if ingredients == '':
+              ingredients = "Nothing ... you forgot to order anything ... just a Margaretta then!"
+            print("ingredients is: ", ingredients)
+
+            if name == '':
+              name = 'Muppet, you forgot a name ...'
+              ingredients = 'Nothing, we do not know who to make it for'
+
+            body = "<html><head><title>pastyandchablis.com</title></head><body><h1>{}, thank you for your order on {}!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><p>Your Pizza might have: {}</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>".format(name, date, ingredients)
 
             response = {
               'isBase64Encoded': False,
