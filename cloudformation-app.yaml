@@ -44,15 +44,19 @@ Resources:
           import uuid
           import datetime
 
+          dynamodb = boto3.resource('dynamodb')
+
           # handle api call
           def handler(event, context):
+
+            fname = 'greg'
 
             response = {
               'isBase64Encoded': False,
               'statusCode': 200,
               'headers': { 'Content-Type': 'text/html' },
               'multiValueHeaders': {},
-              'body': '<html><head><title>pastyandchablis.com</title></head><body><h1>Thank you for your order!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>'
+              'body': '<html><head><title>pastyandchablis.com</title></head><body><h1> ' + str(name) + ', thank you for your order!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>'
             }
             return response
 
