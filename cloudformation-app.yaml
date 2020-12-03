@@ -46,7 +46,17 @@ Resources:
           import datetime
           import os
 
+          # reusable / set vars
           dynamodb = boto3.resource('dynamodb')
+          sesClient = boto3.client('ses', os.environ['AWS_REGION'])
+          
+          # email
+          SUBJECT = "New PastyandChablis order!"
+          TO = os.environ['EmailTo']
+          FROM = os.environ['EmailFrom']
+
+          # dynamoDB
+          table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
 
           # handle api call
           def handler(event, context):
@@ -54,6 +64,7 @@ Resources:
             # Some vars
             name = ''
             ingredients = ''
+            orderID = ''
             error = 0
 
             # extract date
@@ -75,7 +86,6 @@ Resources:
 
             if ingredients == '':
               ingredients = "Nothing ... you forgot to order anything ... just a Margaretta then!"
-              error = 1
 
             if name == '':
               name = 'Muppet, you forgot a name'
@@ -84,19 +94,18 @@ Resources:
 
             # if zero errors, we are good to go ...
             if error == 0:
+
+              # create an orderID uuid
+              orderID = str(uuid.uuid4())
               
               # send email order
-              SUBJECT = "New PastyandChablis order!"
-              TO = os.environ['EmailTo']
-              FROM = os.environ['EmailFrom']
-              BODY_TEXT = "Order for: {}\r\nOrdered on: {}\r\nPizza with: {}".format(name, date, ingredients)
+              BODY_TEXT = "Order for: {}\r\nOrdered on: {}\r\nPizza with: {}\r\nOrderID: {}".format(name, date, ingredients, orderID)
 
               print("Email is: S;{}, T:{}, F:{}, B:{}".format(SUBJECT, TO, FROM, BODY_TEXT))
 
-              client = boto3.client('ses', os.environ['AWS_REGION'])
               try:
                 # Provide the contents of the email.
-                response = client.send_email(
+                response = sesClient.send_email(
                   Destination = { 'ToAddresses': [ TO ] },
                   Message = { 'Body': { 'Text': { 'Charset': 'UTF-8', 'Data': BODY_TEXT }, },
                               'Subject': { 'Charset': 'UTF-8', 'Data': SUBJECT, },
@@ -108,10 +117,19 @@ Resources:
               except ClientError as e:
                 print(e.response['Error']['Message'])
               else:
-                print("Email sent! Message ID:"),
-                print(response['MessageId'])
+                print("Email sent! Message ID:", response['MessageId']),
+
 
               # do dynamoDB save
+              response = table.put_item(
+                Item={
+                  'orderID': orderID, 
+                  'name': name,
+                  'date' : date,
+                  'ingredients' : ingredients
+                 }
+              )
+              print('Dynamodb put succedded: ', response)
 
             # create the HTML response body
             body = "<html><head><title>pastyandchablis.com</title></head><body><h1>{}, thank you for your order on {}!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><p>Your Pizza might have: {}</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>".format(name, date, ingredients)
@@ -138,6 +156,7 @@ Resources:
         Variables:
           EmailFrom: !Ref EmailFrom
           EmailTo: !Ref EmailTo
+          DYNAMODB_TABLE: !Ref CustomerInfo
 
   LambdaOrderIamRole:
     Type: AWS::IAM::Role
@@ -214,12 +233,12 @@ Resources:
     Properties:
       TableName: orders
       KeySchema:
-        - AttributeName: orderName
+        - AttributeName: name
           KeyType: HASH
         - AttributeName: date
           KeyType: RANGE
       AttributeDefinitions:
-        - AttributeName: orderName
+        - AttributeName: name
           AttributeType: S
         - AttributeName: date
           AttributeType: S
