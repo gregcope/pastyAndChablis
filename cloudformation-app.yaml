@@ -50,13 +50,17 @@ Resources:
           def handler(event, context):
 
             fname = 'greg'
+            date = '1900'
+
+            #body = '<html><head><title>pastyandchablis.com</title></head><body><h1> ' + str(name) + ', thank you for your order!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>'
+            body = "<html><head><title>pastyandchablis.com</title></head><body><h1> {}, thank you for your order on {}!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>".format(fname, date)
 
             response = {
               'isBase64Encoded': False,
               'statusCode': 200,
               'headers': { 'Content-Type': 'text/html' },
               'multiValueHeaders': {},
-              'body': '<html><head><title>pastyandchablis.com</title></head><body><h1> ' + str(name) + ', thank you for your order!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>'
+              'body': str(body)
             }
             return response
 
