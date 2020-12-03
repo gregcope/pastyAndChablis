@@ -88,9 +88,9 @@ Resources:
               SUBJECT = "New PastyandChablis order!"
               TO = os.environ['EmailTo']
               FROM = os.environ['EmailFrom']
-              BODY_TEXT = "Order for: {}\r\nOrdered on: {}\r\nPizza with: {}".format(date, ingredients)
+              BODY_TEXT = "Order for: {}\r\nOrdered on: {}\r\nPizza with: {}".format(name, date, ingredients)
 
-              print("Email is: S;{}, T:{}, F:{}, B:{}".format(SUBJECT, TO, FROM, BODY_TEXT)
+              print("Email is: S;{}, T:{}, F:{}, B:{}".format(SUBJECT, TO, FROM, BODY_TEXT))
 
               # do dynamoDB save
 
