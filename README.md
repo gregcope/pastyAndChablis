@@ -31,6 +31,11 @@ In no real order
 * If valid sends an email, saves order to db
 * and sends HTML response to user
 
+## Cloudformation
+
+These have been split into two, `cloudformation-static.yaml` and `cloudformation-app.yaml`, to make them more managable.  They could be collapsed as both have some shared Parameters for example `RootDomainName` (not used yet, but expected to be added for API GW on a Custom Domain name).
+
+
 ## AWS Simple Email Service verififcaiton
 
 You need to verify both the sending domain and the reciepient (if different) to do this.
