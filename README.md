@@ -22,8 +22,7 @@ In no real order
 
 * Cloudfront config, with correct TLS cert tied to a;
 * S3 Origin for static assets
-* Simple API Gateway
-* Lambda secured to API GW only
+* Simple API Gateway secured to a single Lambda
 * Lambda is secured to DynamoDB, Cloudwatch logs, SES only
 
 ## Code logic
