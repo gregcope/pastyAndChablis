@@ -4,7 +4,8 @@ AWS Static website for a bit of fun ordering takeaway pizza!
 
 1. A static website with menu
 1. User submits a form of their Pizza order
-1. Simple recording in S3 access logs
+1. Order is emailed and saved in a DB
+1. User gets a response
 
 ## Aim
 
@@ -14,7 +15,22 @@ In no real order
 * Have a proper cert/domain name
 * CDN and origin config, secured to only answer CDN
 * Configured as Code
-* Learn all the deep details of AWS Cloudformation/config
+* Learn all the deep details
+* Be secure, low cost and good observability
+
+## AWS Design
+
+* Cloudfront config, with correct TLS cert tied to a;
+* S3 Origin for static assets
+* Simple API Gateway
+* Lambda secured to API GW only
+* Lambda is secured to DynamoDB, Cloudwatch logs, SES only
+
+## Code logic
+
+* Form checks input
+* If valid sends an email, saves order to db
+* and sends HTML response to user
 
 ## AWS Simple Email Service verififcaiton
 
