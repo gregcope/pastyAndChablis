@@ -57,12 +57,17 @@ https://www.cs.oberlin.edu/~kuperman/help/vim/indenting.html
 
 ## Resources
 
-Static Websites with CF, CF and S3
+### Static Websites with CF, CF and S3
 * https://nickolaskraus.org/articles/creating-a-static-website-using-cloudformation/
 * https://hackernoon.com/how-to-configure-cloudfront-using-cloudformation-template-2c263u56
 * Region mappings: https://liamraven.com/blog/aws-cloudformation-for-a-static-website
 
-API GW, Lamdba, SES
+### API GW, Lamdba, SES
 * https://acloudguru.com/blog/engineering/how-to-build-a-serverless-contact-form-on-aws
 * https://github.com/guardian/ses-send-email-lambda/blob/master/conf/cloudformation.yml
 * Best one: https://nickolaskraus.org/articles/creating-an-amazon-api-gateway-with-a-lambda-integration-using-cloudformation/
+
+### Python
+* https://stackoverflow.com/questions/42445237/looping-through-a-json-array-in-python
+* UUID lib: https://docs.python.org/3/library/uuid.html
+
