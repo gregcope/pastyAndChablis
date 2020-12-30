@@ -61,6 +61,7 @@ https://www.cs.oberlin.edu/~kuperman/help/vim/indenting.html
 * https://nickolaskraus.org/articles/creating-a-static-website-using-cloudformation/
 * https://hackernoon.com/how-to-configure-cloudfront-using-cloudformation-template-2c263u56
 * Region mappings: https://liamraven.com/blog/aws-cloudformation-for-a-static-website
+* Serverless contact form with reCaptcha; https://www.storyblok.com/tp/serverless-contact-form-setup
 
 ### API GW, Lamdba, SES
 * https://acloudguru.com/blog/engineering/how-to-build-a-serverless-contact-form-on-aws
