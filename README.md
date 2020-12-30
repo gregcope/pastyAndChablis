@@ -70,4 +70,4 @@ https://www.cs.oberlin.edu/~kuperman/help/vim/indenting.html
 ### Python
 * https://stackoverflow.com/questions/42445237/looping-through-a-json-array-in-python
 * UUID lib: https://docs.python.org/3/library/uuid.html
-
+* https://nickolaskraus.org/articles/transforming-code-into-beautiful-idiomatic-python/
