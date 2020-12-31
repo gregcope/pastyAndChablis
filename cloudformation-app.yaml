@@ -132,7 +132,7 @@ Resources:
               print('Dynamodb put succedded: ', response)
 
             # create the HTML response body
-            body = "<html><head><title>pastyandchablis.com</title></head><body><h1>{}, thank you for your order on {}!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><p>Your Pizza might have: {}</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>".format(name, date, ingredients)
+            body = "<html><head><title>pastyandchablis.com</title></head><body><h1>{}, thank you for your order on {}!</h1><p>Our grumpy French chef and Sous Chef and MaitreD will now consider processing your order!</p><p>Your order might have: {}</p><a href=https://www.pastyandchablis.com/index.html>Back to menu / Order another</a></body>".format(name, date, ingredients)
 
             response = {
               'isBase64Encoded': False,
