@@ -159,10 +159,10 @@ Resources:
           DYNAMODB_TABLE: !Ref CustomerInfo
 
   LambdaOrderLoggroup:
-   Type: AWS::Logs:LogGroup
-   Properties:
-     LoggroupName: !Sub '/aws/lambda/${LambdaOrderFunction.FunctionName}'
-	 RetentionInDays: 90
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LoggroupName: !Sub '/aws/lambda/${LambdaOrderFunction}'
+      RetentionInDays: 90
 
   LambdaOrderIamRole:
     Type: AWS::IAM::Role
