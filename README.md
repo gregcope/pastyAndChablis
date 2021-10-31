@@ -23,7 +23,7 @@ In no real order
 * Cloudfront config, with correct TLS cert tied to a;
 * S3 Origin for static assets
 * Simple API Gateway secured to a single Lambda
-* AWS WAF V2 WebACL to protect the above APIGW
+* AWS WAF V2 WebACL to protect the above APIGW with managed rules (e.g. XSS)
 * Lambda is secured to DynamoDB, Cloudwatch logs, SES only
 
 ## Code logic
