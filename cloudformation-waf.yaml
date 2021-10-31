@@ -1,0 +1,78 @@
+## Associate WAFv2 Web ACL with a load balancer
+## Alb = AWS::ElasticLoadBalancingV2::LoadBalancer
+## webACL = AWS::WAFv2::WebACL
+## https://github.com/aws-samples/wafv2-json-yaml-samples/blob/master/YAML/snippet-001.yaml
+  wafAPIGwAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    Properties:
+      ResourceArn: 
+        !Sub 
+          - 'arn:aws:apigateway:${AWS::Region}:${AWS::AccountId}:'
+          - TargetAPIGw: !GetAtt Alb.LoadBalancerFullName
+      WebACLArn: !GetAtt wafACL.Arn
+
+## https://github.com/aws-samples/wafv2-json-yaml-samples/blob/master/YAML/webacl-create-001.yaml
+
+Description: This will create a web ACL with AWS Managed Ruleset (Common Rule Set) enabled and exluding a rule inside it.
+
+Resources:
+  WebACLWithAMR:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: pastyChablisWebACL
+      Scope: REGIONAL
+      Description: 
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: MetricForpastyChablisWebACL
+      Tags:
+        - Key: sampleapple
+          Value: sampleorange
+      Rules:
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 0
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: MetricForAMRCRS
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+              ExcludedRules:
+                - Name: NoUserAgent_HEADER
+        - Name: AWS-AWSManagedRulesKnownBadInputsRuleSet
+          Priority: 1
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: MetricForAMRCRS
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesKnownBadInputsRuleSet
+              ExcludedRules:
+                - Name: NoUserAgent_HEADER
+        - Name: AWS-AWSManagedRulesBotControlRuleSet
+          Priority: 2
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: MetricForAMRCRS
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesBotControlRuleSet
+              ExcludedRules:
+                - Name: NoUserAgent_HEADER
+
+
