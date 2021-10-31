@@ -23,6 +23,7 @@ In no real order
 * Cloudfront config, with correct TLS cert tied to a;
 * S3 Origin for static assets
 * Simple API Gateway secured to a single Lambda
+* AWS WAF V2 WebACL to protect the above APIGW
 * Lambda is secured to DynamoDB, Cloudwatch logs, SES only
 
 ## Code logic
@@ -33,20 +34,19 @@ In no real order
 
 ## Cloudformation
 
-These have been split into two, `cloudformation-static.yaml` and `cloudformation-app.yaml`, to make them more managable.  They could be collapsed as both have some shared Parameters for example `RootDomainName` (not used yet, but expected to be added for API GW on a Custom Domain name).
+These have been split into, `cloudformation-static.yaml`, `cloudformation-app.yaml` and `cloudformation-waf.yaml`, to make them more managable.  They could be collapsed as both have some shared Parameters for example `RootDomainName` (not used yet, but expected to be added for API GW on a Custom Domain name).
 
 ## AWS Simple Email Service verififcaiton
 
 You need to verify both the sending domain and the reciepient (if different) to do this.
 
-Assuming an R43 hosted domain for a domain and any inbox you have access to (for individual email)
+Assuming an R53 hosted domain for a domain and any inbox you have access to (for individual email)
 
 1. Login into the AWS console and goto your prefered region
 1. Go to the `SES Home`
 1. Under `Identity Management`, Choose to;
 1. Under `Domains` click `Verify a New Domain` and enter the Domain name, click `Generate DKIM Settings` and click `Verify This Domain`.  Down the bottom click `Use Route 53` Click the `Domain Verificaiton Record` and `DKIM Settings` and then `Create Record Sets`.  Return and refresh and it should show as `Verified`
 1. Under the `Email Addresses` click `Verify a New Email Address` and enter the recpient (or sender) and click go.  Access the inbox and look for the email from AWS, and click the link.  Return and refresh and it should show as `Verified`
-
 
 ## Notes
 
@@ -66,6 +66,12 @@ https://www.cs.oberlin.edu/~kuperman/help/vim/indenting.html
 * https://acloudguru.com/blog/engineering/how-to-build-a-serverless-contact-form-on-aws
 * https://github.com/guardian/ses-send-email-lambda/blob/master/conf/cloudformation.yml
 * Best one: https://nickolaskraus.org/articles/creating-an-amazon-api-gateway-with-a-lambda-integration-using-cloudformation/
+
+### AWS WAF and WebACL
+* https://github.com/aws-samples/wafv2-json-yaml-samples/blob/master/YAML/snippet-001.yaml
+* https://github.com/aws-samples/wafv2-json-yaml-samples/blob/master/YAML/webacl-create-001.yaml
+* https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-aws-waf.html
+* https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-webacl-rule.html
 
 ### Python
 * https://stackoverflow.com/questions/42445237/looping-through-a-json-array-in-python
