@@ -39,7 +39,7 @@ Resources:
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
-            MetricName: MetricForAMRCRS
+            MetricName: MetricForAMRCommonRuleSet
           Statement:
             ManagedRuleGroupStatement:
               VendorName: AWS
@@ -53,7 +53,7 @@ Resources:
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
-            MetricName: MetricForAMRCRS
+            MetricName: MetricForAMRKnownBadInputsRuleSet
           Statement:
             ManagedRuleGroupStatement:
               VendorName: AWS
@@ -67,7 +67,7 @@ Resources:
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
-            MetricName: MetricForAMRCRS
+            MetricName: MetricForAMRBotControlRuleSet
           Statement:
             ManagedRuleGroupStatement:
               VendorName: AWS
