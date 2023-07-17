@@ -81,3 +81,12 @@ https://www.cs.oberlin.edu/~kuperman/help/vim/indenting.html
 * https://stackoverflow.com/questions/42445237/looping-through-a-json-array-in-python
 * UUID lib: https://docs.python.org/3/library/uuid.html
 * https://nickolaskraus.org/articles/transforming-code-into-beautiful-idiomatic-python/
+
+### Resilience / tweaks
+* https://repost.aws/knowledge-center/api-gateway-cloudfront-distribution
+* https://aws.amazon.com/blogs/compute/building-a-multi-region-serverless-application-with-amazon-api-gateway-and-aws-lambda/
+* https://github.com/aws-samples/blog-multi-region-serverless-service/blob/master/helloworld-api/get_healthcheck.py
+* https://www.pluralsight.com/resources/blog/cloud/building-a-serverless-multi-region-active-active-backend
+* https://aws.amazon.com/blogs/networking-and-content-delivery/improve-web-application-availability-with-cloudfront-and-route53-hybrid-origin-failover/#:~:text=In%20summary%2C%20CloudFront%20Origin%20Failover,detect%20failure%20from%20the%20origin.
+* https://aws.amazon.com/fr/blogs/networking-and-content-delivery/three-advanced-design-patterns-for-high-available-applications-using-amazon-cloudfront/
+* https://aws.amazon.com/blogs/networking-and-content-delivery/improve-web-application-availability-with-cloudfront-and-route53-hybrid-origin-failover/
