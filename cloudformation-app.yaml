@@ -89,6 +89,11 @@ Resources:
             # remove the last trailing white space we have added
             ingredients = ingredients.rstrip()
 
+            # Could add health checklogic here like
+            #if healthcheck == 1;
+              # heathcheck()
+              # which includes a return ...
+
             if ingredients == '':
               ingredients = "Nothing ... you forgot to order anything ... just a Margaretta then!"
 
