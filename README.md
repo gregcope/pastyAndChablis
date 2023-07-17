@@ -17,6 +17,7 @@ In no real order
 * Configured as Code
 * Learn all the deep details
 * Be secure, low cost and good observability
+* [NEW] Resilient to region or serice (in one region failure)
 
 ## AWS Design
 
@@ -25,6 +26,9 @@ In no real order
 * Simple API Gateway secured to a single Lambda
 * AWS WAF V2 WebACL to protect the above APIGW with managed rules (e.g. XSS)
 * Lambda is secured to DynamoDB, Cloudwatch logs, SES only
+* [NEW] Deployed in more than one region
+* [NEW] Dynamo DB global tables replication
+* [NEW] R53 failover
 
 ## Code logic
 
